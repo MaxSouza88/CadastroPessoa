@@ -1,5 +1,6 @@
 package com.CadastroSimples.Cadastro.PessoaController;
 
+import com.CadastroSimples.Cadastro.Dto.ResponsePessoaDto;
 import com.CadastroSimples.Cadastro.Entities.Pessoa;
 import com.CadastroSimples.Cadastro.Service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,40 +11,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pessoas/")
+@RequestMapping("/pessoas")
 public class PessoaController {
 
-    @Autowired
-    private PessoaService pessoaService;
+    private final PessoaService pessoaService;
 
-    // Criar nova pessoa
+    public PessoaController(PessoaService pessoaService) {
+        this.pessoaService = pessoaService;
+    }
+
     @PostMapping
-    @RequestMapping("cadastrar")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Pessoa> cadastrarPessoa(@RequestBody Pessoa pessoa) {
-        Pessoa pessoas = pessoaService.cadastrar(pessoa);
-        return ResponseEntity.ok(pessoas);
+    public ResponseEntity<Pessoa> cadastrar(@RequestBody Pessoa pessoa) {
+        Pessoa novaPessoa = pessoaService.cadastrar(pessoa);
+        return ResponseEntity.ok(novaPessoa);
     }
 
-    //Buscar lista de Pessoa
-    @GetMapping
-    public ResponseEntity<List<Pessoa>> buscaTudo(){
-        return ResponseEntity.ok(pessoaService.buscaTudo());
-    }
-
-    // Buscar pessoa por ID com endereço via ViaCEP
     @GetMapping("/{id}")
-    public ResponseEntity<Pessoa> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<ResponsePessoaDto> buscarPorId(@PathVariable Long id) {
         return pessoaService.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping
+    public ResponseEntity<List<Pessoa>> buscarTodas() {
+        List<Pessoa> pessoas = pessoaService.buscarTodasPessoas();
+        return ResponseEntity.ok(pessoas);
+    }
 
-    //Excluir pessoa
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> deletaConta(@PathVariable Long id){
-        pessoaService.deletaConta(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        pessoaService.deletarPessoa(id);
         return ResponseEntity.noContent().build();
     }
 }
