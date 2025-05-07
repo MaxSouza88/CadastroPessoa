@@ -14,14 +14,12 @@ public class PessoaService {
 
     @Autowired
     private PessoaRepository pessoaRepository;
-    private final RestTemplate restTemplate;
 
     public PessoaService(PessoaRepository pessoaRepository) {
         this.pessoaRepository = pessoaRepository;
-        this.restTemplate = new RestTemplate();
     }
 
-    public Pessoa salvar(Pessoa pessoa) {
+    public Pessoa cadastrar(Pessoa pessoa) {
         return pessoaRepository.save(pessoa);
     }
 

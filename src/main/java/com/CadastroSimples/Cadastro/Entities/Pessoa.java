@@ -1,15 +1,15 @@
 package com.CadastroSimples.Cadastro.Entities;
 
 import jakarta.persistence.*;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 
 @Entity
-@Data //Gera getters, setters, toString, equals e hashCode
-@NoArgsConstructor // Construtor vazio
-@AllArgsConstructor // Construtor com todos os campos
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class Pessoa {
 
     @Id

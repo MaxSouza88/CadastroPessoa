@@ -10,24 +10,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pessoas")
+@RequestMapping("/pessoas/")
 public class PessoaController {
 
     @Autowired
     private PessoaService pessoaService;
 
+    // Criar nova pessoa
+    @PostMapping
+    @RequestMapping("cadastrar")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Pessoa> cadastrarPessoa(@RequestBody Pessoa pessoa) {
+        Pessoa pessoas = pessoaService.cadastrar(pessoa);
+        return ResponseEntity.ok(pessoas);
+    }
 
     //Buscar lista de Pessoa
     @GetMapping
     public ResponseEntity<List<Pessoa>> buscaTudo(){
         return ResponseEntity.ok(pessoaService.buscaTudo());
-    }
-    // Criar nova pessoa
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Pessoa> criar(@RequestBody Pessoa pessoa) {
-        Pessoa salva = pessoaService.salvar(pessoa);
-        return ResponseEntity.ok(salva);
     }
 
     // Buscar pessoa por ID com endereço via ViaCEP
