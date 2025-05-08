@@ -4,9 +4,7 @@ import com.CadastroSimples.Cadastro.Dto.ResponsePessoaDto;
 import com.CadastroSimples.Cadastro.Dto.ViaCepResponse;
 import com.CadastroSimples.Cadastro.Entities.Pessoa;
 import com.CadastroSimples.Cadastro.Repository.PessoaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
