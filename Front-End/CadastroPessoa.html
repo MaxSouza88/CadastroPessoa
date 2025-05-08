@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <title>Cadastro de Pessoa</title>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light justify-content-center" style="background-color: #19403D;">
+  <div class="text-center">
+    <div class="container-fluid">
+      <a class="navbar-brand float-start text-white mx-5" href="CadastroPessoa.html">Página Principal</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+          <li class="nav-item">
+            <a class="nav-link text-white mx-1" style="background-color: #34817B;border-radius: 10px;font-weight:500;"
+               aria-current="page" href="Cadastrar usuario.html">Cadastro Pessoa</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link text-white mx-1" style="background-color: #34817B;border-radius: 10px;font-weight:500;"
+               aria-current="page" href="Consulta Usuario.html">Consulta Pessoa Cadastrada</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link text-white mx-1" style="background-color: #34817B;border-radius: 10px;font-weight:500;"
+               aria-current="page" href="Consulta Usuario.html">Atualizar Cadastro</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link text-white mx-1" style="background-color: #34817B;border-radius: 10px;font-weight:500;"
+               aria-current="page" href="Consulta Usuario.html">Excluir Cadastro</a>
+          </li>
+
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid col-md-6">
+  <h1 class="text-center my-4">Cadastro Pessoa</h1>
+  <form id="cadastroForm">
+
+    <div class="mb-3">
+      <label class="form-label">Nome</label>
+      <input type="text" name="nome" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Sobrenome</label>
+      <input type="text" name="sobrenome" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Rg</label>
+      <input type="text" name="rg" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Cep</label>
+      <input type="text" name="cep" class="form-control" required>
+    </div>
+
+    <button type="submit" onclick="msg()"
+            class="btn btn-lg m-3 text-white d-grid gap-2 col-4 mx-auto" style="background-color: #34817B;font-weight: 500;">Cadastrar</button>
+  </form>
+</div>
+
+<h2>Resultado:</h2>
+<pre id="resultado"></pre>
+
+<script>
+  document.getElementById('cadastroForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const pessoa = {
+      nome: form.nome.value,
+      sobrenome: form.sobrenome.value,
+      rg: form.rg.value,
+      cep: form.cep.value
+    };
+
+    try {
+      const response = await fetch('http://localhost:8080/pessoas/cadastro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(pessoa)
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao cadastrar pessoa');
+      }
+
+      const resultado = await response.json();
+      document.getElementById('resultado').textContent = JSON.stringify(resultado, null, 2);
+    } catch (err) {
+      document.getElementById('resultado').textContent = `Erro: ${err.message}`;
+    }
+  });
+</script>
+</body>
+</html>
